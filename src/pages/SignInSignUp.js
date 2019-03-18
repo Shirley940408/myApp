@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import styles from './styles/background';
-import bgpic from './imgs/background.jpg';
-import Button from'./Button';
-import TextInput from './TextInput';
-import WhiteBlank from './asset/WhiteBlank';
-import {existance, pwdValidation, nameValidation, emailValidation} from './util/validation';
-class App extends Component {
+import styles from '../styles/background';
+import bgpic from '../imgs/background.jpg';
+import Button from'../component/Button';
+import TextInput from '../component/TextInput';
+import WhiteBlank from '../component/WhiteBlank';
+import {existance, pwdValidation, nameValidation, emailValidation} from '../util/validation';
+// import App from './App';
+import { Route, Link } from 'react-router-dom';
+class SignInSignUp extends Component {
   state={
     emailErr:'',
     passwordErr:'',
@@ -34,6 +36,7 @@ class App extends Component {
         this.setState({
           emailErr:emailValidation(this.input_values.email),
         }); 
+        console.log('empty');
       }
 
   }
@@ -53,6 +56,7 @@ class App extends Component {
   }
 
   render() {
+    const { location : { pathname } } = this.props;
     return (  
       <div style={styles.container} className={styles.container_class}>
         <img src={bgpic} style={styles.image} className={styles.image_class}  alt=''/>
@@ -66,14 +70,34 @@ class App extends Component {
                 <WhiteBlank w={'100%'} h='m'/>
                 <TextInput id='password' onChange={this.onChange} onBlur={this.onBlur} errMsg={this.state.passwordErr}  placeholder="Password"/>
                 <WhiteBlank w={'100%'} h='m'/>
+                <Route path='/signup' render={()=>
+                <>               
                 <TextInput id='name' onChange={this.onChange} onBlur={this.onBlur} errMsg={this.state.nameErr} placeholder="Name"/>
                 <WhiteBlank/>
-                <Button id="signup" onClick={this.onSubmit} label="SignUp"/>
+                </>
+                }
+                />
+
+                <Button id="signup" onClick={this.onSubmit} label={ pathname ==='/signup'? 'SignUp': 'Login'}/>
               
               </div> 
               <div style={styles.panel.footer} className={styles.panel.footer_class}>
                 <div className={styles.panel.footer_width}>
-                  <span style={styles.text_bottom_left}>Already have an account? </span><span style={styles.text_bottom_right}>Login</span>
+                <Route  path={'/signup'} render={()=>
+                <>               
+                  <span style={styles.text_bottom_left}>Already have an account?  </span>
+                  <Link to='./login'><span style={styles.text_bottom_right}>Login</span></Link>
+                </>
+                }
+                />
+                <Route exact path={['/login', '/']} render={()=>
+                <>               
+                  <span style={styles.text_bottom_left}>Don't have an account?  </span>
+                  <Link to='./signup'><span style={styles.text_bottom_right}>SignUp</span></Link>
+                </>
+                }
+                />
+
                 </div>
               </div> 
 
@@ -85,4 +109,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default SignInSignUp;

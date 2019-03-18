@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "./styles/button";
+import styles from "../styles/button";
 export default class Button extends Component {
   constructor() {
     super();

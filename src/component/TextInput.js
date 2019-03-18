@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import styles from './styles/Text';
+import styles from '../styles/Text';
 import TextCostume from './TextCostume';
-import './component/Text.css';
+import './Text.css';
 export default class TextInput extends Component{
 
     render(){

@@ -85,7 +85,7 @@ export function nameValidation(value){
 export function emailValidation(value){
     
     if(existance(value)){
-        const err=existance;
+        const err=existance(value);
         return err;
     }
     if(email(value)){
