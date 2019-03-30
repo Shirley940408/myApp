@@ -7,6 +7,7 @@ export default class TextInput extends Component{
     render(){
         const{
             errMsg,
+            children,
             ...rest
         }=this.props;
         return(

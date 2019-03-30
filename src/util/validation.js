@@ -15,7 +15,7 @@ export function existance(value){
 
 
 // validations.email()
-function email(value){
+export function email(value){
     if(!value.match(/[\w-]+@([\w-]+)\.+[\w-]+/i)){
         const err='invalid email';
         return err;
@@ -23,27 +23,27 @@ function email(value){
 }
 
 
-function upperCase(value){
+export function upperCase(value){
     if(!value.match(/[A-Z]/)){
         const err='At lease one uppercase';
         return err;              
     }          
 }
 
-function lowerCase(value){
+export function lowerCase(value){
     if(!value.match(/[a-z]/)){
         const err='At lease one lowercase';
         return err;        
     }
 }
-function pwdLength(value){
+export function pwdLength(value){
     var arr=value.split('');
     if(arr.length<6||arr.length>15){
         const err=`it should between 6 - 15`;
         return err;
     }
 }
-function nameLength(value){
+export function nameLength(value){
     var arr=value.split('');
     if(arr.length<=0||arr.length>20){
         const err=`it should between 1 - 19`;
@@ -51,48 +51,59 @@ function nameLength(value){
     }
 }
 
-//format 位置传 validation
-export function pwdValidation(value){
+//     function pwdValidation(value){
     
-    if(existance(value)){
-        const err=existance(value);
-        return err;
+//     if(existance(value)){
+//         const err=existance(value);
+//         return err;
+//     }
+//     if(upperCase(value)){
+//         const err=upperCase(value);
+//         return err;
+//     }
+//     if(lowerCase(value)){
+//         const err=lowerCase(value);
+//         return err;
+//     }
+//     if(pwdLength(value)){
+//         const err=pwdLength(value);
+//         return err;
+//     }
+//  function nameValidation(value){
+    
+//     if(existance(value)){
+//         const err=existance(value);
+//         return err;
+//     }
+//     if(nameLength(value)){
+//         const err=nameLength(value);
+//         return err;
+//     }        
+//  function emailValidation(value){
+    
+//     if(existance(value)){
+//         const err=existance(value);
+//         return err;
+//     }
+//     if(email(value)){
+//         const err=email(value);
+//         return err;
+//     } 
+// }
+export function validate(rules, value=''){
+    if(rules.constructor != Array){
+        rules = [rules];
     }
-    if(upperCase(value)){
-        const err=upperCase(value);
-        return err;
-    }
-    if(lowerCase(value)){
-        const err=lowerCase(value);
-        return err;
-    }
-    if(pwdLength(value)){
-        const err=pwdLength(value);
-        return err;
+    const n=rules.length;
+    for(let i=0; i<n; i++){
+        if(rules[i](value)){
+           return rules[i](value);  
+        //    console.log(rules[i](value));
+        }
     }
 }
-export function nameValidation(value){
-    
-    if(existance(value)){
-        const err=existance(value);
-        return err;
-    }
-    if(nameLength(value)){
-        const err=nameLength(value);
-        return err;
-    }        
-}
-export function emailValidation(value){
-    
-    if(existance(value)){
-        const err=existance(value);
-        return err;
-    }
-    if(email(value)){
-        const err=email(value);
-        return err;
-    } 
-}
+// var test=validate([upperCase, email],'Lalalaal');
+// console.log(test);
 
 
 // emailValidation(existance) = validate([existance, email], input)

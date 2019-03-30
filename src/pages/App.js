@@ -13,7 +13,8 @@ class App extends Component {
       <Switch>      
       {/* <Route path='/Signup' component={Signup}/> */}
       <Route path='/questions' component={Questions}/>
-      <Route path={['/login','/','/signup']} component={SignInSignUp}/>
+      {/* <Route path={['/login','/','/signup']} component={SignInSignUp}/> */}
+      <Route path={['/']} component={SignInSignUp}/>
       </Switch>
     );
   }
