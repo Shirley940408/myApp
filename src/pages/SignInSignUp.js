@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import styles from '../styles/background';
 import bgpic from '../imgs/background.jpg';
@@ -5,8 +6,10 @@ import Button from '../component/Button';
 import TextInput from '../component/TextInput';
 import WhiteBlank from '../component/WhiteBlank';
 import { existance, email, upperCase, lowerCase, pwdLength, nameLength, validate } from '../util/validation';
+import axios from 'axios';
 // import App from './App';
-import { Route, Link, Switch } from 'react-router-dom';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import { SERVER_ADDRESS } from '../constants';
 
 const validation_items = {
   email: [existance, email],
@@ -66,7 +69,7 @@ class SignInSignUp extends Component {
     // }
 
   render() {
-    const { location: { pathname } } = this.props;
+    // const { location: { pathname } } = this.props;
     return (
       <div style={styles.container} className={styles.container_class}>
         <img src={bgpic} style={styles.image} className={styles.image_class} alt='' />
@@ -93,18 +96,6 @@ class SignInSignUp extends Component {
                   <Route path='/signup' render={()=><SignUpForm/>}/>
                   <Route path='/' render={()=><LoginForm onLogin={this.props.onLogin}/>}/>
                 </Switch>
-                {/* <BaseForm
-                  inputs={[
-                    { id: 'email', placeholder: 'Email' },
-                    { id: 'password', placeholder: 'Password' },
-                    { id: 'name', placeholder: 'Name' },
-                  ]}
-                  btnLabel={pathname==='/Signup' ? 'Signup':'Login'}
-                  footerText='Already have an account ?'
-                  link={{ path: '/login', displayName: 'Login' }}
-                /> */}
-
-
               </div>
               <div style={styles.panel.footer} className={styles.panel.footer_class}>
                 <div className={styles.panel.footer_width}>
@@ -137,7 +128,11 @@ class SignInSignUp extends Component {
 export default SignInSignUp;
 
 class SignUpForm extends Component{
+  state={
+    should_redirect: false,
+  }
   render(){
+    if(this.state.should_redirect) return <Redirect to= {{ pathname: '/login'}}/>
     return(
       <BaseForm
       inputs={[
@@ -145,28 +140,105 @@ class SignUpForm extends Component{
         { id: 'password', placeholder: 'Password' },
         { id: 'name', placeholder: 'Name' },
       ]}
-      // btnLabel={ pathname==='/Signup' ? 'Signup':'Login'}
       btnLabel='SignUp'
       footerText='Already have an account ?'
       link={{ path: '/login', displayName: 'Login' }}
+      onSubmit={this.onSubmit}
     />
     );
   }
+
+  onSubmit = (input_values)=>{
+    let request= axios({
+      method: 'post',
+      url: SERVER_ADDRESS +'/users',
+      data: {
+        user: {
+          email: input_values['email'],
+          password: input_values['password'],
+          name: input_values['name'],
+        }
+      },
+      validateStatus: (status)=>{
+        if((status>= 200 && status<= 300)||(status >=400 && status <500)) {
+          return true;
+        }else{
+          return false;
+        }
+      }
+    });
+
+    request.then((response)=>{
+      console.log(response);
+      if(response.status == 201 ){
+        this.setState({should_redirect: true});
+      }else if(response.status == 400){
+        let error_first = response.data.errors[0];
+        if(error_first.code == 'duplicated_field'){
+          alert("The email has been registered!");
+        }else{
+          alert("Unexpected error happened, please contact lalala@gmail.com");
+        }
+      }
+    }, (error)=>{
+      alert("Unexpected error happened, please contact lalala@gmail.com");
+    });
+  }
 }
 class LoginForm extends Component{
+  state={
+    should_redirect: false,
+  }
   render(){
+    if (this.state.should_redirect) return <Redirect to={{pathname : '/questions'}}/>
     return(
       <BaseForm
       inputs={[
         { id: 'email', placeholder: 'Email' },
         { id: 'password', placeholder: 'Password' },
       ]}
-      // btnLabel={ pathname==='/Signup' ? 'Signup':'Login'}
       btnLabel='Login'
       footerText='Already have an account ?'
       link={{ path: '/login', displayName: 'Login' }}
+      onSubmit={this.onSubmit}
     />
     );
+  }
+  onSubmit=(input_values)=>{
+    let request = axios({
+      method: 'post',
+      url : SERVER_ADDRESS + '/user_tokens',
+      data: {
+        credential: {
+          email: input_values['email'],
+          password: input_values['password'],
+        }
+      },
+      validateStatus: (status) =>{
+        if((status <=200 && status < 300) || (status >=400 || status <500) ){
+          return true;
+        }else{
+          return false;
+        }
+      }
+    });
+    request.then((response)=>{
+      if(response.status == 201) {
+        this.props.onLogin && this.props.onLogin(response.data.user_token);
+        this.setState({should_redirect : true});
+      }else if(response.status == 400){
+        let error_first = response.data.errors[0];
+        if(error_first.code == 'invalid_credential'){
+          alert('Email or password is wrong!');
+        }else{
+          alert('Unexpected error happened, please contact lalala@gmail.com');
+        }
+      }else{
+        alert('Unexpected error happened, please contact lalala@gmail.com');
+      }
+    },()=>{
+      alert('Unexpected error happened, please contact lalala@gmail.com');
+    });
   }
 }
 
@@ -239,7 +311,6 @@ class BaseForm extends Component {
             </>
           )
         }
-
 
         <Button onClick={this.onSubmit} label={btnLabel} />
 
