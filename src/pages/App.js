@@ -14,18 +14,20 @@ class App extends Component {
       {/* // <Signup/>
       // <Login/>
       // window.location.pathname === '/login' ? <Login /> :<Signup/> */}
-      {this.state.user_token ?
+      {/* {this.state.user_token ? */}
       <Switch>      
       {/* <Route path='/Signup' component={Signup}/> */}
       <Route path='/questions' render={()=><Questions userToken ={this.state.user_token}/>}/>
       <Redirect to ='/questions'/>
-      </Switch>:
-      <Switch>
-      {/* <Route path={['/login','/','/signup']} component={SignInSignUp}/> */}
-      <Route exact path={['/login','/','/signup']} render={()=><SignInSignUp onLogin ={this.onLogin}/>}/>
-      <Redirect to='/login' />
       </Switch>
-      }
+      {/* : */}
+      {/* <Switch> */}
+      {/* <Route path={['/login','/','/signup']} component={SignInSignUp}/> */}
+      {/* <Route exact path={['/login','/','/signup']} render={()=><SignInSignUp onLogin ={this.onLogin}/>}/>
+      <Redirect to='/login' />
+      </Switch> */}
+
+      {/* } */}
       </BrowserRouter>
     );
   }

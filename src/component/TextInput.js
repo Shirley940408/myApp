@@ -6,12 +6,13 @@ export default class TextInput extends Component{
 
     render(){
         const{
+            style,
             errMsg,
             children,
             ...rest
         }=this.props;
         return(
-            <div>
+            <div style={style}>
                 <input {...rest} style={styles}/>
 
                 <div style={styles.line(errMsg)}></div>
@@ -19,7 +20,6 @@ export default class TextInput extends Component{
 
                 {/* <div ></div> */}
                 <TextCostume style={styles.errorBlock} type='xs err'><span>{errMsg}</span></TextCostume>
-
             </div>
             
             

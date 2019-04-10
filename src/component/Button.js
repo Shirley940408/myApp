@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styles from "../styles/button";
+import '../styles/Button.css'
 export default class Button extends Component {
   constructor() {
     super();
@@ -9,7 +10,7 @@ export default class Button extends Component {
   }
 
   render() {
-    const { onClick } = this.props;
+    const { onClick, style } = this.props;
     return (
       <button
         onClick={onClick}
@@ -20,10 +21,23 @@ export default class Button extends Component {
         onMouseLeave={() => {
           this.setState({ hovered: false });
         }}
-        className={styles.className}
+        // className={styles.className}
+        
       >
         {this.props.label}
       </button>
+    );
+  }
+}
+
+export class FloatButton extends Component {
+  render(){
+    return(
+      <div style={styles.container_float_button} className='container-float-button'>
+      <img 
+      style={styles.icon}
+      src={require('../imgs/icons/add.svg')}/>
+      </div>
     );
   }
 }
