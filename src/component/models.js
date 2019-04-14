@@ -48,18 +48,7 @@ export const questions = {
                   }
                 }
                 });
-              //   request.then((response)=>{
-              //   if(response.status == 201) {
-              //     // payload.success_callback && payload.success_callback();
-              //       this.setState({should_redirect: true});
-              //   }
-              //   else{
-              //     alert('Unexpected error happened, please contact lalala@gmail.com');
-              //   }
-              // })
-              // .catch((error)=>{
-              //   alert('Unexpected error happened, please contact lalala@gmail.com');
-              // })
+
               request.then((response)=>{
                 console.log(response);
                 if(response.status == 201 ){
