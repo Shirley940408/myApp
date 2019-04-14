@@ -116,3 +116,56 @@ export const user_token = {
     }
   }),
 }
+
+
+export const users={
+  state: {},
+  reducers:{
+    set(state,payload){
+      
+      let state_new = {...state, [payload.id]: payload };
+      return state_new;//need to be written as pure function
+    }
+  },
+  effects: dispatch =>({
+    create(payload,state){
+      let request= axios({
+        method: 'post',
+        url: SERVER_ADDRESS +'/users',
+        data: {
+          user: {
+            email: payload.email,
+            password: payload.password,
+            name: payload.name,
+          }
+        },
+        validateStatus: (status)=>{
+          if((status>= 200 && status<= 300)||(status >=400 && status <500)) {
+            return true;
+          }else{
+            return false;
+          }
+        }
+      });
+  
+      request.then((response)=>{
+        console.log(response);
+        if(response.status == 201 ){
+          alert("register successful!");
+          payload.success_callback && payload.success_callback();
+          dispatch.users.set(response.data.user);
+        }else if(response.status == 400){
+          let error_first = response.data.errors[0];
+          if(error_first.code == 'duplicated_field'){
+            alert("The email has been registered!");
+          }else{
+            alert("Unexpected error happened, please contact lalala@gmail.com");
+          }
+        }
+      }, (error)=>{
+        alert("Unexpected error happened, please contact lalala@gmail.com");
+      });
+    }
+    
+  })
+}

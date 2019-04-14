@@ -90,7 +90,7 @@ class SignInSignUp extends Component {
 
                 <Button id="signup" onClick={this.onSubmit} label={ pathname ==='/signup'? 'SignUp': 'Login'}/> */}
                 <Switch>
-                  <Route path='/signup' render={()=><SignUpForm/>}/>
+                  <Route path='/signup' render={()=><SignUpFormContainer/>}/>
                   <Route path='/' render={()=><LoginFormContainer onLogin={this.props.onLogin}/>}/>
                 </Switch>
               </div>
@@ -146,42 +146,23 @@ class SignUpForm extends Component{
   }
 
   onSubmit = (input_values)=>{
-    let request= axios({
-      method: 'post',
-      url: SERVER_ADDRESS +'/users',
-      data: {
-        user: {
-          email: input_values['email'],
-          password: input_values['password'],
-          name: input_values['name'],
-        }
+    this.props.signup && this.props.signup(
+      input_values['email'],
+      input_values['password'],
+      input_values['name'],
+      ()=>{
+        this.setState({should_redirect: true})
       },
-      validateStatus: (status)=>{
-        if((status>= 200 && status<= 300)||(status >=400 && status <500)) {
-          return true;
-        }else{
-          return false;
-        }
-      }
-    });
-
-    request.then((response)=>{
-      console.log(response);
-      if(response.status == 201 ){
-        this.setState({should_redirect: true});
-      }else if(response.status == 400){
-        let error_first = response.data.errors[0];
-        if(error_first.code == 'duplicated_field'){
-          alert("The email has been registered!");
-        }else{
-          alert("Unexpected error happened, please contact lalala@gmail.com");
-        }
-      }
-    }, (error)=>{
-      alert("Unexpected error happened, please contact lalala@gmail.com");
-    });
+    );
   }
 }
+const mapStateSignUp = state =>({
+
+})
+const mapDispatchSignUp = dispatch =>({
+ signup: (email,password,name,success_callback) => dispatch.users.create({email,password,name,success_callback})
+})
+const SignUpFormContainer= connect(null, mapDispatchSignUp)(SignUpForm)
 class LoginForm extends Component{
   state={
     should_redirect: false,
