@@ -32,8 +32,9 @@ export default class Button extends Component {
 
 export class FloatButton extends Component {
   render(){
+    const { ...rest } = this.props;
     return(
-      <div style={styles.container_float_button} className='container-float-button'>
+      <div style={styles.container_float_button} className='container-float-button' { ...rest }>
       <img 
       style={styles.icon}
       src={require('../imgs/icons/add.svg')}/>

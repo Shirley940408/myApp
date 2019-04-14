@@ -60,6 +60,7 @@ export const questions = {
                 console.log(response);
                 if(response.status == 201 ){
                   payload.success_callback && payload.success_callback();
+                  dispatch.questions.getAll();
                   // this.setState({should_redirect: true});
                 }else if(response.status == 400){
                   let error_first = response.data.errors[0];
@@ -76,3 +77,49 @@ export const questions = {
     }),
 }
 
+export const user_token = {
+  state: null,
+  reducers:{
+    set(state,payload){
+      return payload;
+    }
+  },
+  effects: dispatch=>({
+    create(payload,state){
+      let request = axios({
+        method: 'post',
+        url : SERVER_ADDRESS + '/user_tokens',
+        data: {
+          credential: {
+            email: payload.email,
+            password: payload.password,
+          }
+        },
+        validateStatus: (status) =>{
+          if((status >=200 && status < 300) || (status >=400 || status <500) ){
+            return true;
+          }else{
+            return false;
+          }
+        }
+      });
+      request.then((response)=>{
+        if(response.status == 201) {
+          dispatch.user_token.set(response.data.user_token);
+          payload.success_callback && payload.success_callback();
+        }else if(response.status == 400){
+          let error_first = response.data.errors[0];
+          if(error_first.code == 'invalid_credential'){
+            alert('Email or password is wrong!');
+          }else{
+            alert('Unexpected error happened, please contact lalala@gmail.com');
+          }
+        }else{
+          alert('Unexpected error happened, please contact lalala@gmail.com');
+        }
+      },()=>{
+        alert('Unexpected error happened, please contact lalala@gmail.com');
+      });
+    }
+  }),
+}

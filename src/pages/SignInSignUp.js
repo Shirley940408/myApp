@@ -11,7 +11,7 @@ import axios from 'axios';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import { SERVER_ADDRESS } from '../constants';
 import { BaseForm } from '../component/BaseForm';
-
+import { connect } from 'react-redux';
 
 class SignInSignUp extends Component {
     // state={
@@ -91,7 +91,7 @@ class SignInSignUp extends Component {
                 <Button id="signup" onClick={this.onSubmit} label={ pathname ==='/signup'? 'SignUp': 'Login'}/> */}
                 <Switch>
                   <Route path='/signup' render={()=><SignUpForm/>}/>
-                  <Route path='/' render={()=><LoginForm onLogin={this.props.onLogin}/>}/>
+                  <Route path='/' render={()=><LoginFormContainer onLogin={this.props.onLogin}/>}/>
                 </Switch>
               </div>
               <div style={styles.panel.footer} className={styles.panel.footer_class}>
@@ -202,40 +202,15 @@ class LoginForm extends Component{
     );
   }
   onSubmit=(input_values)=>{
-    let request = axios({
-      method: 'post',
-      url : SERVER_ADDRESS + '/user_tokens',
-      data: {
-        credential: {
-          email: input_values['email'],
-          password: input_values['password'],
-        }
-      },
-      validateStatus: (status) =>{
-        if((status >=200 && status < 300) || (status >=400 || status <500) ){
-          return true;
-        }else{
-          return false;
-        }
-      }
-    });
-    request.then((response)=>{
-      if(response.status == 201) {
-        this.props.onLogin && this.props.onLogin(response.data.user_token);
-        this.setState({should_redirect : true});
-      }else if(response.status == 400){
-        let error_first = response.data.errors[0];
-        if(error_first.code == 'invalid_credential'){
-          alert('Email or password is wrong!');
-        }else{
-          alert('Unexpected error happened, please contact lalala@gmail.com');
-        }
-      }else{
-        alert('Unexpected error happened, please contact lalala@gmail.com');
-      }
-    },()=>{
-      alert('Unexpected error happened, please contact lalala@gmail.com');
-    });
+    this.props.login(
+    input_values['email'], 
+    input_values['password'], 
+    ()=>this.setState({should_redirect:true})
+    );
   }
 }
-
+//mapState, mapDispatch 的函数内部的callback要返回函数的调用。e.g. blabla:()=>func()
+const mapDispatch = ({user_token:{ create }})=>({
+  login: (email, password, success_callback) =>create({ email, password, success_callback }),
+})
+const LoginFormContainer = connect (null, mapDispatch)(LoginForm);

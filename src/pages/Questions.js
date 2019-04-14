@@ -23,11 +23,19 @@ class Questions extends Component {
             <div>
                 <Header avatarSrc={avatar_default} />
                 <QuestionList questions={this.props.questions} />
-                <FloatButton />
-                <CreateQuestionsContainer userToken={this.props.userToken} />
+                <FloatButton onClick={()=>{
+                    this._create_question_ref && this._create_question_ref.show();
+                }}/>
+                <CreateQuestionsContainer
+                ref={this._createQuestionRef}
+                userToken={this.props.userToken} />
             </div>
         );
     }
+    _createQuestionRef = ref =>{
+        this._create_question_ref = ref
+    }
+    //被改变状态的组件传地址，改变别的组件状态的组件接地址
 }
 // export default Questions;
 
@@ -63,7 +71,7 @@ class CreateQuestion extends Component {
     state = {
         titleErr: '',
         contentErr: '',
-        shouldShow:true,
+        shouldShow:false,
     }
     input_values = {
         title: '',
@@ -81,6 +89,12 @@ class CreateQuestion extends Component {
             //e.g if this id is 'title', then it will return emailErr:existance(value)
         })
     }
+    show = ()=>{
+        this.setState({shouldShow:true});
+    }
+    hide = ()=>{
+        this.setState({shouldShow:false});
+    }
     onSubmit = () => {
         console.log('submitted');
         let _errMsgs = {};
@@ -96,7 +110,7 @@ class CreateQuestion extends Component {
             this.input_values['title'], 
             this.input_values['content'],
             this.props.userToken,
-            ()=>this.setState({shouldShow:false}),
+            this.hide,
             );
         }
     }
@@ -155,4 +169,4 @@ let mapStateCreateQuestion = state => ({
 let mapDispatchCreateQuestion = dispatch => ({
     create: (title,content,user_token, success_callback) => dispatch.questions.create({title,content,user_token,success_callback})
 });
-const CreateQuestionsContainer = connect(null, mapDispatchCreateQuestion)(CreateQuestion);
+const CreateQuestionsContainer = connect(null, mapDispatchCreateQuestion, null, { forwardRef: true })(CreateQuestion);
