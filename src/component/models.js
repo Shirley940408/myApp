@@ -44,33 +44,34 @@ export const questions = {
                   }
                 }
                 });
-                request.then((response)=>{
-                if(response.status == 201) {
-                  // payload.success_callback && payload.success_callback();
-                    this.setState({should_redirect: true});
-                }
-                else{
-                  alert('Unexpected error happened, please contact lalala@gmail.com');
-                }
-              })
-              .catch((error)=>{
-                alert('Unexpected error happened, please contact lalala@gmail.com');
-              })
-              // request.then((response)=>{
-              //   console.log(response);
-              //   if(response.status == 201 ){
-              //     this.setState({should_redirect: true});
-              //   }else if(response.status == 400){
-              //     let error_first = response.data.errors[0];
-              //     if(error_first.code == 'duplicated_field'){
-              //       alert("The email has been registered!");
-              //     }else{
-              //       alert("Unexpected error happened, please contact lalala@gmail.com");
-              //     }
+              //   request.then((response)=>{
+              //   if(response.status == 201) {
+              //     // payload.success_callback && payload.success_callback();
+              //       this.setState({should_redirect: true});
               //   }
-              // }, (error)=>{
-              //   alert("Unexpected error happened, please contact lalala@gmail.com");
-              // });
+              //   else{
+              //     alert('Unexpected error happened, please contact lalala@gmail.com');
+              //   }
+              // })
+              // .catch((error)=>{
+              //   alert('Unexpected error happened, please contact lalala@gmail.com');
+              // })
+              request.then((response)=>{
+                console.log(response);
+                if(response.status == 201 ){
+                  payload.success_callback && payload.success_callback();
+                  // this.setState({should_redirect: true});
+                }else if(response.status == 400){
+                  let error_first = response.data.errors[0];
+                  if(error_first.code == 'duplicated_field'){
+                    alert("The email has been registered!");
+                  }else{
+                    alert("Unexpected error happened, please contact lalala@gmail.com");
+                  }
+                }
+              }, (error)=>{
+                alert("Unexpected error happened, please contact lalala@gmail.com");
+              });
         }
     }),
 }

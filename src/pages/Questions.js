@@ -95,7 +95,9 @@ class CreateQuestion extends Component {
             this.props.create && this.props.create(
             this.input_values['title'], 
             this.input_values['content'],
-            this.props.userToken);
+            this.props.userToken,
+            ()=>this.setState({shouldShow:false}),
+            );
         }
     }
     _checkErr = obj => {
@@ -151,6 +153,6 @@ let mapStateCreateQuestion = state => ({
     questions: state.questions,
 });
 let mapDispatchCreateQuestion = dispatch => ({
-    create: (title,content,user_token) => dispatch.questions.create({title,content,user_token}),
+    create: (title,content,user_token, success_callback) => dispatch.questions.create({title,content,user_token,success_callback})
 });
 const CreateQuestionsContainer = connect(null, mapDispatchCreateQuestion)(CreateQuestion);
