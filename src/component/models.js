@@ -46,6 +46,7 @@ export const questions = {
                 });
                 request.then((response)=>{
                 if(response.status == 201) {
+                  // payload.success_callback && payload.success_callback();
                     this.setState({should_redirect: true});
                 }
                 else{
@@ -55,55 +56,22 @@ export const questions = {
               .catch((error)=>{
                 alert('Unexpected error happened, please contact lalala@gmail.com');
               })
+              // request.then((response)=>{
+              //   console.log(response);
+              //   if(response.status == 201 ){
+              //     this.setState({should_redirect: true});
+              //   }else if(response.status == 400){
+              //     let error_first = response.data.errors[0];
+              //     if(error_first.code == 'duplicated_field'){
+              //       alert("The email has been registered!");
+              //     }else{
+              //       alert("Unexpected error happened, please contact lalala@gmail.com");
+              //     }
+              //   }
+              // }, (error)=>{
+              //   alert("Unexpected error happened, please contact lalala@gmail.com");
+              // });
         }
     }),
 }
-// create(payload, state) {
-//   if (!state.user_token) {
-//     alert("You have not logged in!");
-//     return;
-//   }
-
-//   let request = axios({
-//     method: 'post',
-//     url: SERVER_ADDRESS + '/questions',
-//     headers: {
-//       'Authorization': JSON.stringify({
-//         user_token: {
-//           user_id: state.user_token.user_id,
-//           key: state.user_token.key,
-//         }
-//       }),
-//     },
-//     data: {
-//       question: {
-//         title: payload.title,
-//         content: payload.content,
-//       },
-//     },
-//     validateStatus: function (status) {
-//       return (status >= 200 && status < 300) || (status >= 400 && status < 500);
-//     },
-//   });
-
-//   request.then((response) => {
-//     if (response.status == 201) {
-//       payload.success_callback && payload.success_callback();
-
-//       dispatch.questions.getAll();
-//     } else {
-//       alert("Something expected happened T_T Please contact admin@bigfish.ca. (status is " + response.status + ")");
-//     }
-//   })
-//   .catch((error) => {
-//     alert("Something expected happened T_T Please contact admin@bigfish.ca. (error is " + error + ")");
-//   });
-// }
-// }),
-// }
-
-// export const user_toke={
-//     state:null,
-// }
-
 
