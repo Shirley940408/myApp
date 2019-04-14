@@ -19,14 +19,18 @@ export const questions = {
         },
         create(payload, state){
           console.log(payload);
+          if(!state.user_token){
+            alert("You have not login!");
+            return;
+          }
             let request = axios({
                 method: 'post',
                 url : SERVER_ADDRESS + '/questions',
                 headers:{
                   'Authorization': JSON.stringify({
                     user_token:{
-                      user_id: payload.user_token.user_id,
-                      key: payload.user_token.key,
+                      user_id: state.user_token.user_id,
+                      key: state.user_token.key,
                     }
                   }),
                 },
