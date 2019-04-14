@@ -212,7 +212,7 @@ class LoginForm extends Component{
         }
       },
       validateStatus: (status) =>{
-        if((status <=200 && status < 300) || (status >=400 || status <500) ){
+        if((status >=200 && status < 300) || (status >=400 || status <500) ){
           return true;
         }else{
           return false;

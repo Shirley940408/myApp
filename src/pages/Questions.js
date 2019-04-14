@@ -11,6 +11,7 @@ import Button from '../component/Button';
 import TextInput from '../component/TextInput';
 import WhiteBlank from '../component/WhiteBlank';
 
+
 class Questions extends Component {
     componentDidMount() {
         if (this.props.questions.length == 0) {
@@ -23,7 +24,7 @@ class Questions extends Component {
                 <Header avatarSrc={avatar_default} />
                 <QuestionList questions={this.props.questions} />
                 <FloatButton />
-                <CreateQuestion />
+                <CreateQuestionsContainer userToken={this.props.userToken} />
             </div>
         );
     }
@@ -88,10 +89,13 @@ class CreateQuestion extends Component {
             // console.log(this.input_values[value]);
             _errMsgs[`${value}Err`] = validate(CreateQuestion.validation_items[value], this.input_values[value])
         });
-        if (this._checkErr) {
+        if (this._checkErr()) {
             this.setState(_errMsgs);
         } else {
-
+            this.props.create && this.props.create(
+            this.input_values['title'], 
+            this.input_values['content'],
+            this.props.userToken);
         }
     }
     _checkErr = obj => {
@@ -133,7 +137,6 @@ class CreateQuestion extends Component {
                             </div>
                         </div>
                     </div>
-
                     <WhiteBlank h={40} />
                 </div>
             </div>
@@ -143,3 +146,11 @@ class CreateQuestion extends Component {
         }  
     }
 }
+
+let mapStateCreateQuestion = state => ({
+    questions: state.questions,
+});
+let mapDispatchCreateQuestion = dispatch => ({
+    create: (title,content,user_token) => dispatch.questions.create({title,content,user_token}),
+});
+const CreateQuestionsContainer = connect(null, mapDispatchCreateQuestion)(CreateQuestion);

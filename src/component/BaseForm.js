@@ -20,7 +20,7 @@ export class BaseForm extends Component {
     constructor(props) {
       super(props);
       let _temp_state = {};
-      this.input_values = {};
+      this.input_values= {};
       props.inputs.forEach(input => {
         _temp_state[input.id + 'Err'] = '';
         this.input_values[input.id] = '';
