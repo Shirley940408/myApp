@@ -9,13 +9,14 @@ export const questions = {
     },
     effects:dispatch=>({
         getAll(payload,state){
-            let request=axios({
-                method:'get',
-                url : SERVER_ADDRESS + '/questions',
-                });
-            request.then((response)=>{
-                dispatch.questions.set(response.data.questions);
-            });
+          callAPI({
+          method: 'get',
+          uri: '/questions',
+          }).then(
+            response=>{
+              dispatch.questions.set(response.data.questions);
+            }
+          )
         },
         create(payload, state){
           console.log(payload);
@@ -23,49 +24,40 @@ export const questions = {
             alert("You have not login!");
             return;
           }
-            let request = axios({
-                method: 'post',
-                url : SERVER_ADDRESS + '/questions',
-                headers:{
-                  'Authorization': JSON.stringify({
-                    user_token:{
-                      user_id: state.user_token.user_id,
-                      key: state.user_token.key,
-                    }
-                  }),
-                },
-                data: {
-                  question: {
-                    title: payload.title,
-                    content:payload.content,
-                  }
-                },
-                validateStatus: (status) =>{
-                  if((status >=200 && status < 300) || (status >=400 || status <500) ){
-                    return true;
-                  }else{
-                    return false;
-                  }
+          callAPI({
+            method: 'post',
+            uri: '/questions',
+            headers:{
+              'Authorization': JSON.stringify({
+                user_token:{
+                  user_id: state.user_token.user_id,
+                  key: state.user_token.key,
                 }
-                });
-
-              request.then((response)=>{
-                console.log(response);
-                if(response.status == 201 ){
-                  payload.success_callback && payload.success_callback();
-                  dispatch.questions.getAll();
-                  // this.setState({should_redirect: true});
-                }else if(response.status == 400){
-                  let error_first = response.data.errors[0];
-                  if(error_first.code == 'duplicated_field'){
-                    alert("The email has been registered!");
-                  }else{
-                    alert("Unexpected error happened, please contact lalala@gmail.com");
-                  }
+              }),
+            },
+            data: {
+              question: {
+                title: payload.title,
+                content:payload.content,
+              }
+            },
+            errHandler: status => status == 400,
+          }).then(
+            response =>{
+              if(response.status == 201 ){
+                payload.success_callback && payload.success_callback();
+                dispatch.questions.getAll();
+                // this.setState({should_redirect: true});
+              }else if(response.status == 400){
+                let error_first = response.data.errors[0];
+                if(error_first.code == 'duplicated_field'){
+                  alert("The email has been registered!");
+                }else{
+                  alert("Unexpected error happened, please contact lalala@gmail.com");
                 }
-              }, (error)=>{
-                alert("Unexpected error happened, please contact lalala@gmail.com");
-              });
+              }
+            }
+          )
         }
     }),
 }
@@ -79,40 +71,31 @@ export const user_token = {
   },
   effects: dispatch=>({
     create(payload,state){
-      let request = axios({
-        method: 'post',
-        url : SERVER_ADDRESS + '/user_tokens',
+      callAPI({
+        uri:'/user_tokens',
+        method:'post',
         data: {
           credential: {
             email: payload.email,
             password: payload.password,
           }
         },
-        validateStatus: (status) =>{
-          if((status >=200 && status < 300) || (status >=400 || status <500) ){
-            return true;
-          }else{
-            return false;
+        errHandler: status => status == 400
+      }).then(
+        response => {
+          if(response.status == 201) {
+            dispatch.user_token.set(response.data.user_token);
+            payload.success_callback && payload.success_callback();
+          }else if(response.status == 400){
+            let error_first = response.data.errors[0];
+            if(error_first.code == 'invalid_credential'){
+              alert('Email or password is wrong!');
+            }else{
+              alert('Unexpected error happened, please contact lalala@gmail.com');
+            }
           }
         }
-      });
-      request.then((response)=>{
-        if(response.status == 201) {
-          dispatch.user_token.set(response.data.user_token);
-          payload.success_callback && payload.success_callback();
-        }else if(response.status == 400){
-          let error_first = response.data.errors[0];
-          if(error_first.code == 'invalid_credential'){
-            alert('Email or password is wrong!');
-          }else{
-            alert('Unexpected error happened, please contact lalala@gmail.com');
-          }
-        }else{
-          alert('Unexpected error happened, please contact lalala@gmail.com');
-        }
-      },()=>{
-        alert('Unexpected error happened, please contact lalala@gmail.com');
-      });
+      )
     }
   }),
 }
@@ -122,16 +105,15 @@ export const users={
   state: {},
   reducers:{
     set(state,payload){
-      
       let state_new = {...state, [payload.id]: payload };
       return state_new;//need to be written as pure function
     }
   },
   effects: dispatch =>({
     create(payload,state){
-      let request= axios({
+      callAPI({
         method: 'post',
-        url: SERVER_ADDRESS +'/users',
+        uri:'/users',
         data: {
           user: {
             email: payload.email,
@@ -139,33 +121,42 @@ export const users={
             name: payload.name,
           }
         },
-        validateStatus: (status)=>{
-          if((status>= 200 && status<= 300)||(status >=400 && status <500)) {
-            return true;
-          }else{
-            return false;
+        errHandler: status => status == 400,
+      }).then(
+        response => {
+          if(response.status == 201 ){
+            alert("register successful!");
+            payload.success_callback && payload.success_callback();
+            dispatch.users.set(response.data.user);
+          }else if(response.status == 400){
+            let error_first = response.data.errors[0];
+            if(error_first.code == 'duplicated_field'){
+              alert("The email has been registered!");
+            }else{
+              alert("Unexpected error happened, please contact lalala@gmail.com");
+            }
           }
         }
-      });
-  
-      request.then((response)=>{
-        console.log(response);
-        if(response.status == 201 ){
-          alert("register successful!");
-          payload.success_callback && payload.success_callback();
-          dispatch.users.set(response.data.user);
-        }else if(response.status == 400){
-          let error_first = response.data.errors[0];
-          if(error_first.code == 'duplicated_field'){
-            alert("The email has been registered!");
-          }else{
-            alert("Unexpected error happened, please contact lalala@gmail.com");
-          }
-        }
-      }, (error)=>{
-        alert("Unexpected error happened, please contact lalala@gmail.com");
-      });
-    }
-    
+      )
+    }    
   })
 }
+function callAPI({uri, method='get', data, errHandler=()=>false, headers,}){
+  const request = axios({
+    method,
+    url : SERVER_ADDRESS + uri,
+    data,
+    headers,
+    validateStatus: (status) =>{
+      if((status >=200 && status < 300) || errHandler(status) ){
+        return true;
+      }else{
+        return false;
+      }
+    }
+  });
+  return request.catch((error)=>{
+    alert("Unexpected error happened, please contact lalala@gmail.com")
+  });
+}
+
