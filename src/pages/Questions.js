@@ -12,6 +12,7 @@ import TextInput from '../component/TextInput';
 import WhiteBlank from '../component/WhiteBlank';
 
 
+
 class Questions extends Component {
     componentDidMount() {
         if (this.props.questions.length == 0) {
@@ -20,16 +21,18 @@ class Questions extends Component {
     }
     render() {
         return (
-            <div>
+            <>
                 <Header avatarSrc={avatar_default} />
+                <div style={styles.questionListContainer}>
                 <QuestionList questions={this.props.questions} />
                 <FloatButton onClick={()=>{
                     this._create_question_ref && this._create_question_ref.show();
                 }}/>
+                </div>
                 <CreateQuestionsContainer
                 ref={this._createQuestionRef}
                 userToken={this.props.userToken} />
-            </div>
+            </>
         );
     }
     _createQuestionRef = ref =>{
@@ -52,7 +55,7 @@ function QuestionList(props) {
         return props.questions.map((question) => {
             return (
                 <>
-                    <Question title={question.title} content={question.content} />
+                    <Question title={question.title}  content={question.content} />
                     <Seperator />
                 </>
             );

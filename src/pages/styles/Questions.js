@@ -41,6 +41,15 @@ const styles = {
     paddingBottom: 23,
     flexShrink: 0,
   },
+  questionListContainer:{
+    width:'55vw',
+    marginTop:'5vh',
+    marginBottom:'5vh',
+    marginLeft:'auto',
+    marginRight:'auto',
+    borderRadius:15,
+    backgroundColor:'white',
+  },
 
   question: {
     marginLeft: 29,

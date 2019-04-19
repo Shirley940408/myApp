@@ -13,8 +13,8 @@ const styles = {
   },
 
   margin: {
-    marginTop: 21,
-    marginBottom: 21,
+    // marginTop: 21,
+    // marginBottom: 21,
   },
 
 };
