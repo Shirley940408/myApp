@@ -10,8 +10,7 @@ import { connect } from 'react-redux';
 import Button from '../component/Button';
 import TextInput from '../component/TextInput';
 import WhiteBlank from '../component/WhiteBlank';
-
-
+import List from '../component/List';
 
 class Questions extends Component {
     componentDidMount() {
@@ -24,18 +23,18 @@ class Questions extends Component {
             <>
                 <Header avatarSrc={avatar_default} />
                 <div style={styles.questionListContainer}>
-                <QuestionList questions={this.props.questions} />
-                <FloatButton onClick={()=>{
-                    this._create_question_ref && this._create_question_ref.show();
-                }}/>
+                    <QuestionList questions={this.props.questions} />
+                    <FloatButton onClick={() => {
+                        this._create_question_ref && this._create_question_ref.show();
+                    }} />
                 </div>
                 <CreateQuestionsContainer
-                ref={this._createQuestionRef}
-                userToken={this.props.userToken} />
+                    ref={this._createQuestionRef}
+                    userToken={this.props.userToken} />
             </>
         );
     }
-    _createQuestionRef = ref =>{
+    _createQuestionRef = ref => {
         this._create_question_ref = ref
     }
     //被改变状态的组件传地址，改变别的组件状态的组件接地址
@@ -51,19 +50,17 @@ let mapDispatch = dispatch => ({
 export default connect(mapState, mapDispatch)(Questions);
 
 function QuestionList(props) {
-    if (props.questions) {
-        return props.questions.map((question) => {
-            return (
-                <>
-                    <Question title={question.title}  content={question.content} />
-                    <Seperator />
-                </>
-            );
-        });
+    const { questions } = props;
+    return <List
+        data={questions}
+        renderRow={questions => <Question
+            key={questions.id}
+            title={questions.title}
+            content={questions.content}
+        />
 
-    } else {
-        return null;
-    }
+        } />
+
 }
 
 class CreateQuestion extends Component {
@@ -74,7 +71,7 @@ class CreateQuestion extends Component {
     state = {
         titleErr: '',
         contentErr: '',
-        shouldShow:false,
+        shouldShow: false,
     }
     input_values = {
         title: '',
@@ -92,11 +89,11 @@ class CreateQuestion extends Component {
             //e.g if this id is 'title', then it will return emailErr:existance(value)
         })
     }
-    show = ()=>{
-        this.setState({shouldShow:true});
+    show = () => {
+        this.setState({ shouldShow: true });
     }
-    hide = ()=>{
-        this.setState({shouldShow:false});
+    hide = () => {
+        this.setState({ shouldShow: false });
     }
     onSubmit = () => {
         console.log('submitted');
@@ -110,9 +107,9 @@ class CreateQuestion extends Component {
             this.setState(_errMsgs);
         } else {
             this.props.create && this.props.create(
-            this.input_values['title'], 
-            this.input_values['content'],
-            this.hide,
+                this.input_values['title'],
+                this.input_values['content'],
+                this.hide,
             );
         }
     }
@@ -126,17 +123,17 @@ class CreateQuestion extends Component {
     }
     render() {
 
-        if(this.state.shouldShow){
+        if (this.state.shouldShow) {
             return (<div
                 style={styles.container_create_question}
-                onClick={()=>this.setState({shouldShow:false,})}
+                onClick={() => this.setState({ shouldShow: false, })}
             >
                 <div
                     style={styles.panel_create_question}
-                onClick={(event) => {
-                    // console.log('I am inner component!');
-                    event.stopPropagation();
-                }}
+                    onClick={(event) => {
+                        // console.log('I am inner component!');
+                        event.stopPropagation();
+                    }}
                 >
                     <WhiteBlank h={40} />
                     <TextInput id="title" style={styles.title_create_question} errMsg={this.state['titleErr']} onBlur={this.onBlur} onChange={this.onChange} placeholder="Title" />
@@ -158,10 +155,10 @@ class CreateQuestion extends Component {
                     <WhiteBlank h={40} />
                 </div>
             </div>
-                );
-        }else{
+            );
+        } else {
             return null;
-        }  
+        }
     }
 }
 
@@ -169,6 +166,6 @@ let mapStateCreateQuestion = state => ({
     questions: state.questions,
 });
 let mapDispatchCreateQuestion = dispatch => ({
-    create: (title,content,success_callback) => dispatch.questions.create({title,content,success_callback})
+    create: (title, content, success_callback) => dispatch.questions.create({ title, content, success_callback })
 });
 const CreateQuestionsContainer = connect(null, mapDispatchCreateQuestion, null, { forwardRef: true })(CreateQuestion);
