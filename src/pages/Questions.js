@@ -11,6 +11,8 @@ import Button from '../component/Button';
 import TextInput from '../component/TextInput';
 import WhiteBlank from '../component/WhiteBlank';
 import List from '../component/List';
+import Answers from './Answers'
+import { Route, Switch } from 'react-router-dom';
 
 class Questions extends Component {
     componentDidMount() {
@@ -22,12 +24,19 @@ class Questions extends Component {
         return (
             <>
                 <Header avatarSrc={avatar_default} />
-                <div style={styles.questionListContainer}>
-                    <QuestionList questions={this.props.questions} />
-                    <FloatButton onClick={() => {
-                        this._create_question_ref && this._create_question_ref.show();
+                <Switch>
+                    <Route path='/questions/:question_id' render={(props) =><Answers {...props}/>} />
+                    <Route path='/questions' render={() => {
+                        return <div style={styles.questionListContainer}>
+                            <QuestionList questions={this.props.questions} />
+                            <FloatButton onClick={() => {
+                                this._create_question_ref && this._create_question_ref.show();
+                            }} />
+                        </div>
+
                     }} />
-                </div>
+                </Switch>
+
                 <CreateQuestionsContainer
                     ref={this._createQuestionRef}
                     userToken={this.props.userToken} />
@@ -51,13 +60,18 @@ export default connect(mapState, mapDispatch)(Questions);
 
 function QuestionList(props) {
     const { questions } = props;
+    // console.log(question)
     return <List
         data={questions}
-        renderRow={questions => <Question
-            key={questions.id}
-            title={questions.title}
-            content={questions.content}
-        />
+        keyExtractor={item => item.id}
+        renderRow={question => {
+            console.log('question key', question.id)
+            return <Question
+                id={question.id}
+                title={question.title}
+                content={question.content}
+            />
+        }
 
         } />
 

@@ -161,3 +161,44 @@ function callAPI({ uri, method = 'get', data, errHandler = () => false, headers,
   });
 }
 
+export const answers= {
+  state:{},
+  reducers: {
+    update(state, payload){
+      return {
+        ...state,
+        ...payload,
+      }
+    }
+  },
+  effects: dispatch =>({
+    async getAnswers(question_id,rootState){
+      const response = await callAPI({
+        uri:`/questions/${question_id}/answers`,
+        user_token: rootState.user_token,
+        headers:{
+          Authorization: JSON.stringify(rootState.user_token)
+        },
+        errHandler: status =>status == 404
+      })
+      if(response.status == 200){
+        dispatch.answers.update({
+          question_id:response.data.answers
+        })
+      }
+    },
+     async create({ question_id, content }, rootState){
+       const response = await callAPI({
+         method :'post',
+         uri:`/questions/${question_id}/answers`,
+         user_token: rootState.user_token,
+         data:{
+           answer:{
+             content
+           }
+         }
+       })
+       return response.data
+     }
+  })
+}
