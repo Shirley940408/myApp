@@ -177,13 +177,13 @@ export const answers= {
         uri:`/questions/${question_id}/answers`,
         user_token: rootState.user_token,
         headers:{
-          Authorization: JSON.stringify(rootState.user_token)
+          Authorization: JSON.stringify({user_token: rootState.user_token})
         },
         errHandler: status =>status == 404
       })
       if(response.status == 200){
         dispatch.answers.update({
-          question_id:response.data.answers
+          [question_id]:response.data.answers
         })
       }
     },
@@ -191,7 +191,9 @@ export const answers= {
        const response = await callAPI({
          method :'post',
          uri:`/questions/${question_id}/answers`,
-         user_token: rootState.user_token,
+         headers:{
+           Authorization:JSON.stringify({user_token: rootState.user_token})
+         },
          data:{
            answer:{
              content

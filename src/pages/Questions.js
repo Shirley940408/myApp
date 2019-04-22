@@ -12,7 +12,8 @@ import TextInput from '../component/TextInput';
 import WhiteBlank from '../component/WhiteBlank';
 import List from '../component/List';
 import Answers from './Answers'
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import Answer from '../component/Answer';
 
 class Questions extends Component {
     componentDidMount() {
@@ -25,7 +26,11 @@ class Questions extends Component {
             <>
                 <Header avatarSrc={avatar_default} />
                 <Switch>
-                    <Route path='/questions/:question_id' render={(props) =><Answers {...props}/>} />
+                    <Route path='/questions/:question_id' render={(props) => {
+                        return <div style={styles.AnswerListContainer}>
+                            <Answers {...props} />
+                        </div>
+                    }} />
                     <Route path='/questions' render={() => {
                         return <div style={styles.questionListContainer}>
                             <QuestionList questions={this.props.questions} />
@@ -56,8 +61,8 @@ let mapState = state => ({
 let mapDispatch = dispatch => ({
     getAllQuestions: () => dispatch.questions.getAll(),
 });
-export default connect(mapState, mapDispatch)(Questions);
-
+export default withRouter(connect(mapState, mapDispatch)(Questions));
+// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
 function QuestionList(props) {
     const { questions } = props;
     // console.log(question)
@@ -72,7 +77,6 @@ function QuestionList(props) {
                 content={question.content}
             />
         }
-
         } />
 
 }

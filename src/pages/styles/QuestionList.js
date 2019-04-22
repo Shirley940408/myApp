@@ -1,20 +1,4 @@
-import {
-  COLOR_LEAD_WHITE,
-} from '../../constants';
-
 const styles = {
-
-  container: {
-    // styling self
-    width: '100vw',
-    height: '100vh',
-    backgroundColor: COLOR_LEAD_WHITE,
-    // styling children
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
 
   scrollable: {
     // styling self
@@ -36,38 +20,22 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     paddingTop: 23,
     paddingBottom: 23,
     flexShrink: 0,
   },
-  questionListContainer:{
-    width:'55vw',
-    marginTop:'5vh',
-    marginBottom:'5vh',
-    marginLeft:'auto',
-    marginRight:'auto',
-    borderRadius:15,
-    backgroundColor:'white',
-  },
-  AnswerListContainer:{
-    //styling self
-    width:'55vw',
-    marginTop:'5vh',
-    marginBottom:'5vh',
-    marginLeft:'auto',
-    marginRight:'auto',
-    // backgroundColor:'white',
-    //styling children
-    display:'flex',
-    flexDirection:'column',
-    justifyContent:'flex-start',
-    alignItems:'center',
-  },
 
   question: {
+    alignSelf: 'stretch',
     marginLeft: 29,
     marginRight: 29,
+  },
+
+  button_add: {
+    position: 'absolute',
+    right: 25,
+    bottom: 25,
   },
 
   container_create_question: {
@@ -111,7 +79,6 @@ const styles = {
     alignSelf: 'flex-end',
     marginBottom: 25,
     marginRight: 100,
-    width: 350
   },
 
 };

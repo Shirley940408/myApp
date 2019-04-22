@@ -1,5 +1,5 @@
 import React from 'react';
-import Text from './TextInput';
+import TextCostume from './TextCostume';
 import styles from '../styles/Question';
 import WhiteBlank from './WhiteBlank';
 import Avatar from './Avatar';
@@ -23,12 +23,12 @@ export default function Answer(props) {
           {
             (user) => */}
               <>
-                {/* <Avatar size={63} src={user.avatar_url}/> */}
+                <Avatar size={63}/>
                 <WhiteBlank w={15} />
                 <div style={{ flex: 1 }}>
-                  {/* <Text>{user.name}</Text> */}
+                  <TextCostume>{'HaHaHa'}</TextCostume>
                   <WhiteBlank h={5} />
-                  <Text type="light">{createAt.slice(0, 10)}</Text>
+                  <TextCostume type="light">{createAt.slice(0, 10)}</TextCostume>
                 </div>
               </>
           {/* }
@@ -36,9 +36,9 @@ export default function Answer(props) {
 
       </div>
       <WhiteBlank h={5} />
-      <Text>{content}</Text>
+      <TextCostume>{content}</TextCostume>
       <WhiteBlank h={8} />
-      <Like num={numOfLikes} />
+      {/* <Like num={numOfLikes} /> */}
     </div>
   );
 }
