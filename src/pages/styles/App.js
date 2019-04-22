@@ -5,8 +5,8 @@ import {
 const styles={
     page:{
     // styling self
-    // width: '100vw',
-    // height: '100vh',
+    width: '100vw',
+    minHeight: '100vh',
     backgroundColor: COLOR_LEAD_WHITE,
     // styling children
     display: 'flex',
