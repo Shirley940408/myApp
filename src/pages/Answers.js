@@ -102,6 +102,7 @@ export class Answers extends React.Component {
           <List
             data={answers}
             renderEmpty={() => <Text type="light">no more answers</Text>}
+            keyExtractor={item => item.id}
             renderRow={({ id, content, user_id, created_at, number_of_likes }) =>
               <Answer
                 key={id}

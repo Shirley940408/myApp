@@ -33,7 +33,7 @@ const styles = {
   },
 
   button_add: {
-    position: 'absolute',
+    position: 'fixed',
     right: 25,
     bottom: 25,
   },
