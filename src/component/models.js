@@ -111,6 +111,20 @@ export const users = {
     }
   },
   effects: dispatch => ({
+    async getUser(user_id,state){
+      const response = await callAPI({
+        uri:'/users/'+ user_id,
+        headers:{
+          Authorization: JSON.stringify({
+            user_token:{
+              user_id: state.user_token.user_id,
+              key:state.user_token.key,
+            },
+          })
+        }
+      });
+      dispatch.users.set(response.data.user);
+    },
     create(payload, state) {
       callAPI({
         method: 'post',
@@ -139,7 +153,7 @@ export const users = {
           }
         }
       )
-    }
+    },
   })
 }
 function callAPI({ uri, method = 'get', data, errHandler = () => false, headers, }) {
