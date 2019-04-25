@@ -11,3 +11,5 @@ export const COLOR_ERROR_RED = '#FF2121';
 export const COLOR_LEAD_WHITE = '#F0F0F4';
 
 export const SERVER_ADDRESS = 'https://big-fish-luqiuyuan.herokuapp.com';
+
+export const COLOR_LIGHT_ORANGE = '#F4BDB0';
