@@ -215,6 +215,26 @@ export const answers= {
          }
        })
        return response.data
-     }
+     },
+     async like({question_id},rootState){
+      const response = await callAPI({
+        method:'post',
+        uri:`question/${question_id}/like`,
+        headers:{
+          Authorization:JSON.stringify({user_token: rootState.user_token})
+        },
+        errHandler: status =>status == 404||status == 400
+      });
+     },
+     async dislike({question_id},rootState){
+      const response = await callAPI({
+        method:'delete',
+        uri:`question/${question_id}/like`,
+        headers:{
+          Authorization:JSON.stringify({user_token: rootState.user_token})
+        },
+        errHandler: status =>status == 404||status == 400
+      });
+     },
   })
 }

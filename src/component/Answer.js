@@ -38,7 +38,7 @@ export default function Answer(props) {
       <WhiteBlank h={5} />
       <TextCostume>{content}</TextCostume>
       <WhiteBlank h={8} />
-      {/* <Like num={numOfLikes} /> */}
+      {numOfLikes!==undefined &&<Like num={numOfLikes} />}
     </div>
   );
 }

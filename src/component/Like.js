@@ -1,6 +1,8 @@
 import React from 'react';
-import Text from './TextInput';
+import Text from './TextCostume';
 import WhiteBlank from './WhiteBlank';
+
+
 
 const Like = ({ num, liked }) => {
   const text_style = liked ? 's white' : 's red'
