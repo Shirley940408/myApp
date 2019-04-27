@@ -6,6 +6,7 @@ import {Route, Switch, Redirect,BrowserRouter }from 'react-router-dom';
 import Questions from './Questions';
 import styles from './styles/App';
 import Header from '../component/Header';
+import User from './User';
 import { connect } from 'react-redux';
 class App extends Component {
 
@@ -26,6 +27,7 @@ class App extends Component {
               <Switch>
                 {/* <Route path="/questions" render={(props) => <Questions {...props} />} /> */}
                 <Route path="/questions" render={() => <Questions userToken={this.state.user_token} />}/>
+                <Route path="/users/:id" render={(props)=><User {...props}/>}/>
                 <Redirect to="/questions" />
               </Switch>
             </div> 

@@ -1,11 +1,21 @@
 import { SERVER_ADDRESS } from '../constants';
 import axios from 'axios';
+import { get } from 'https';
 export const questions = {
   state: [],
   reducers: {
     set(state, payload) {
       return payload;
-    }
+    },
+    // setOne(state,payload){
+    //    index=state.findIndex(question=>{
+    //     return question.id == payload.id;
+    //   });
+    //   let state_new = [...state];
+    //   if(index > -1){
+    //     state_new[index] = payload;
+    //   }
+    // }
   },
   effects: dispatch => ({
     getAll(payload, state) {
@@ -21,6 +31,11 @@ export const questions = {
         }
       )
     },
+    // async get(payload,rootState){
+    //   const response =callAPI({
+    //     uri:`/questions/${question_id}`
+    //   })
+    // },
     create(payload, state) {
       console.log(payload);
       if (!state.user_token) {

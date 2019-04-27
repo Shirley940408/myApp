@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 function UserFetcher({id,user,getUser,children}){
-  console.log(getUser)
+  // console.log(getUser)
   !user && getUser(id)
   return children(user||{});
 }
