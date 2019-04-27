@@ -198,6 +198,21 @@ export const users = {
         }
       )
     },
+    async update({ user }, state){
+      console.log(user);
+      const response = await callAPI({
+        method:'put',
+        uri: `/user`,
+        headers:{
+          Authorization: JSON.stringify({user_token: state.user_token})
+        },
+        data: { user },
+        errHandler: status => status === 400
+      });
+      if(response.status === 200){
+        dispatch.users.set(response.data.user);
+      }
+    }
   })
 }
 function callAPI({ uri, method = 'get', data, errHandler = () => false, headers, }) {
