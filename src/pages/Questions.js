@@ -70,14 +70,15 @@ function QuestionList(props) {
         data={questions}
         keyExtractor={item => item.id}
         renderRow={question => {
-            console.log('question key', question.id)
+            // console.log('question key', question.id)
             return <Question
                 id={question.id}
                 title={question.title}
                 content={question.content}
+                numOfLikes={question.number_of_likes}
+                liked={question.liked}
             />
-        }
-        } />
+        }} />
 
 }
 

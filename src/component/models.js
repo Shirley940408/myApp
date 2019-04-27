@@ -12,6 +12,9 @@ export const questions = {
       callAPI({
         method: 'get',
         uri: '/questions',
+        headers:{
+          Authorization:JSON.stringify({user_token: state.user_token})
+        },
       }).then(
         response => {
           dispatch.questions.set(response.data.questions);
@@ -58,7 +61,33 @@ export const questions = {
           }
         }
       )
-    }
+    },
+    async like({question_id,success_callback},rootState){
+      const response = await callAPI({
+        method:'post',
+        uri:`/questions/${question_id}/like`,
+        headers:{
+          Authorization:JSON.stringify({user_token: rootState.user_token})
+        },
+        errHandler: status =>status == 404||status == 400
+      });
+      if(response.status === 201){
+        success_callback && success_callback();
+      }
+     },
+     async dislike({question_id,success_callback},rootState){
+      const response = await callAPI({
+        method:'delete',
+        uri:`/questions/${question_id}/like`,
+        headers:{
+          Authorization:JSON.stringify({user_token: rootState.user_token})
+        },
+        errHandler: status =>status == 404||status == 400
+      });
+      if(response.status === 200){
+        success_callback && success_callback();
+      }
+     },
   }),
 }
 
@@ -219,7 +248,7 @@ export const answers= {
      async like({question_id},rootState){
       const response = await callAPI({
         method:'post',
-        uri:`question/${question_id}/like`,
+        uri:`/questions/${question_id}/like`,
         headers:{
           Authorization:JSON.stringify({user_token: rootState.user_token})
         },
@@ -229,7 +258,7 @@ export const answers= {
      async dislike({question_id},rootState){
       const response = await callAPI({
         method:'delete',
-        uri:`question/${question_id}/like`,
+        uri:`/questions/${question_id}/like`,
         headers:{
           Authorization:JSON.stringify({user_token: rootState.user_token})
         },
