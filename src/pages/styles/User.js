@@ -22,13 +22,15 @@ const styles = {
     justifyContent:'flex-start',
     alignItems:'center',
   },
-  avatar_image:{
-    width:250,
-    height:250,
+  avatar:{
     marginLeft:30,
     // marginTop:-36,
     position:'relative',
     top:-36,
+  },
+  avatar_image:{
+    width:250,
+    height:250,
   }
 }
 export default styles;

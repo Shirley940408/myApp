@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import UserFetcher from '../component/UserFetcher';
 import styles from './styles/User';
-import defaultAvatar from '../imgs/avatar_default.jpg'
+import defaultAvatar from '../imgs/avatar_default.jpg';
+import TextCostume from '../component/TextCostume';
 export default class User extends Component{
   
   render(){
@@ -13,15 +14,27 @@ export default class User extends Component{
       {user=>{
         return(
           <div style={styles.panel_container}>
-            <img style={styles.avatar_image} src={user.avatar_url||defaultAvatar} alt=""/>
+            <Avatar style={styles.avatar} 
+            avatarURL={user.avatar_url}
+            />
             <div style={styles.info_container}>
-              
+              <TextCostume type='xl'>{user.name}</TextCostume>
+              {/* <TextCostume ></TextCostume> */}
             </div>
           </div>
         )
       }}
       </UserFetcher>
       </div>
+    );
+  }
+}
+
+class Avatar extends Component{
+  render(){
+    const {avatarURL,style}=this.props;
+    return(
+      <img style={{...style,...styles.avatar_image}} src={avatarURL||defaultAvatar} alt=""/>
     );
   }
 }
