@@ -31,6 +31,29 @@ const styles = {
   avatar_image:{
     width:250,
     height:250,
+    backgroundSize:'cover',
+    backgroundPosition:'center',
+  },
+  overlay:{
+    position:'absolute',
+    top:0,
+    right:0,
+    bottom:0,
+    left:0,
+    backgroundColor:'rgba(233,231,239,0.5)',
+    cursor:'pointer',
+    //styling children
+    display:'flex',
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+  },
+  icon_camera:{
+    width:100,
+    height:80,
+  },
+  text_avatar:{
+    marginTop: 49,
   }
 }
 export default styles;
