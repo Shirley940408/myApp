@@ -39,7 +39,7 @@ class User extends Component{
             <div style={styles.info_container}>
             <Editable 
               childernNormal={<TextCostume type='xl'>{user.name}</TextCostume>}
-              childrenEdit={<TextInput placeholder='name'/>}/>
+              childrenEdit={<TextInput placeholder={user.name}/>}/>
             </div>
           </div>
         )
@@ -125,8 +125,8 @@ class Editable extends Component{
         {
           this.state.editing?
           <div style={styles.row_second_container}>
-          <ButtonSmallPositive label='save'/>
-          <ButtonSmallNegative label='cancel' style={{marginLeft: 20}}/>
+          <ButtonSmallPositive label='save' onClick={()=>{this.setState({editing: false})}}/>
+          <ButtonSmallNegative label='cancel' style={{marginLeft: 20}} onClick={()=>{this.setState({editing: false})}}/>
           </div> : null
         }
       </div>
