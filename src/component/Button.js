@@ -57,3 +57,59 @@ export class EditButton extends Component{
     );
   }
 }
+
+export class ButtonSmallPositive extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      hovered: false,
+    };
+  }
+
+  render() {
+    const { style, onClick } = this.props
+    return (
+      <button
+        onClick={onClick}
+        style={{ ...styles.button_small_positive, opacity: this.state.hovered ? 0.5 : 1, ...style }}
+        onMouseEnter={() => {
+          this.setState({ hovered: true });
+        }}
+        onMouseLeave={() => {
+          this.setState({ hovered: false });
+        }}>
+        <TextCostume type="white">{this.props.label}</TextCostume>
+      </button>
+    );
+  }
+
+}
+
+export class ButtonSmallNegative extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      hovered: false,
+    };
+  }
+
+  render() {
+    const { style, onClick } = this.props
+    return (
+      <button
+        onClick={onClick}
+        style={{ ...styles.button_small_negative, opacity: this.state.hovered ? 0.5 : 1, ...style }}
+        onMouseEnter={() => {
+          this.setState({ hovered: true });
+        }}
+        onMouseLeave={() => {
+          this.setState({ hovered: false });
+        }}>
+        <TextCostume >{this.props.label}</TextCostume>
+      </button>
+    );
+  }
+
+}

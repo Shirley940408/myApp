@@ -56,11 +56,24 @@ const styles = {
     marginTop: 49,
   },
   row_first_container:{
-    display:'flex',
-    // flex
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   edit_button:{
     marginLeft: 30,
+  },
+  row_second_container:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  container:{
+
+
   }
 }
 export default styles;

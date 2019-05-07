@@ -1,5 +1,5 @@
 import {brightOrange} from'./color';
-import { COLOR_THEME } from '../constants';
+import { COLOR_THEME, COLOR_YAQING} from '../constants';
 
 const styles= {
     container_float_button:{
@@ -47,6 +47,34 @@ const styles= {
       },
       label_edit:{
         marginleft: 15,
+      },
+      button_small_positive: {
+        // self styles
+        width: 193,
+        height: 50,
+        backgroundColor: COLOR_THEME,
+        borderRadius: 5,
+        cursor: 'pointer',
+        // children styles
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      button_small_negative: {
+        // self styles
+        width: 193,
+        height: 50,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        cursor: 'pointer',
+        borderWidth: 1,
+        borderColor: COLOR_YAQING,
+        // children styles
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
       },
 }
 

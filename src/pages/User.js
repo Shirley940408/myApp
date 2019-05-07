@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import UserFetcher from '../component/UserFetcher';
 import styles from './styles/User';
 import defaultAvatar from '../imgs/avatar_default.jpg';
 import TextCostume from '../component/TextCostume';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
-import {EditButton} from '../component/Button';
+import {EditButton, ButtonSmallPositive, ButtonSmallNegative} from '../component/Button';
 import TextInput from '../component/TextInput';
 
   // Initialize Firebase
@@ -109,19 +109,27 @@ class Editable extends Component{
   }
   render(){
     return(
-      <div 
-        style={styles.row_first_container} 
-        onMouseEnter={()=>this.setState({hovered: true})} 
-        onMouseLeave={()=>{this.setState({hovered: false})}}>
-          
-          {this.state.editing?
-          this.props.childrenEdit: this.props.childernNormal}
-          {this.state.hovered && !this.state.editing? 
-          <EditButton 
-          style={styles.edit_button}
-          onClick={()=>this.setState({editing: true})}/>: null
-          }
-      </div>      
+      <div style={styles.container}>
+        <div 
+          style={styles.row_first_container} 
+          onMouseEnter={()=>this.setState({hovered: true})} 
+          onMouseLeave={()=>{this.setState({hovered: false})}}>         
+            {this.state.editing?
+            this.props.childrenEdit: this.props.childernNormal}
+            {this.state.hovered && !this.state.editing? 
+            <EditButton 
+            style={styles.edit_button}
+            onClick={()=>this.setState({editing: true})}/>: null
+            }
+        </div>     
+        {
+          this.state.editing?
+          <div style={styles.row_second_container}>
+          <ButtonSmallPositive label='save'/>
+          <ButtonSmallNegative label='cancel' style={{marginLeft: 20}}/>
+          </div> : null
+        }
+      </div>
     );
   }
 }
