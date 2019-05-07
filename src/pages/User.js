@@ -5,8 +5,8 @@ import defaultAvatar from '../imgs/avatar_default.jpg';
 import TextCostume from '../component/TextCostume';
 import {connect} from 'react-redux';
 import firebase from 'firebase';
-
-
+import {EditButton} from '../component/Button';
+import TextInput from '../component/TextInput';
 
   // Initialize Firebase
   var config = {
@@ -37,8 +37,9 @@ class User extends Component{
             onUploaded={update}
             />
             <div style={styles.info_container}>
-              <TextCostume type='xl'>{user.name}</TextCostume>
-              {/* <TextCostume ></TextCostume> */}
+            <Editable 
+              childernNormal={<TextCostume type='xl'>{user.name}</TextCostume>}
+              childrenEdit={<TextInput placeholder='name'/>}/>
             </div>
           </div>
         )
@@ -100,3 +101,27 @@ class Avatar extends Component{
     );
   }
 } 
+
+class Editable extends Component{
+  state = {
+    hovered: false,
+    editing: false,
+  }
+  render(){
+    return(
+      <div 
+        style={styles.row_first_container} 
+        onMouseEnter={()=>this.setState({hovered: true})} 
+        onMouseLeave={()=>{this.setState({hovered: false})}}>
+          
+          {this.state.editing?
+          this.props.childrenEdit: this.props.childernNormal}
+          {this.state.hovered && !this.state.editing? 
+          <EditButton 
+          style={styles.edit_button}
+          onClick={()=>this.setState({editing: true})}/>: null
+          }
+      </div>      
+    );
+  }
+}

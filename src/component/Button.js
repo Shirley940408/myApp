@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "../styles/button";
 import '../styles/Button.css'
+import TextCostume from './TextCostume';
 export default class Button extends Component {
   constructor() {
     super();
@@ -38,6 +39,20 @@ export class FloatButton extends Component {
       <img 
       style={styles.icon}
       src={require('../imgs/icons/add.svg')}/>
+      </div>
+    );
+  }
+}
+export class EditButton extends Component{
+  render(){
+    const { style } = this.props
+    return(
+      <div
+        style={{...styles.container_edit_button, ...style}}
+        onClick={this.props.onClick}
+      >
+        <img style={styles.icon_edit} src={require("../imgs/icons/pencil-edit-button.svg")} alt=""/>
+        <TextCostume type='red' style={styles.label_edit}>Edit</TextCostume>
       </div>
     );
   }

@@ -54,6 +54,13 @@ const styles = {
   },
   text_avatar:{
     marginTop: 49,
+  },
+  row_first_container:{
+    display:'flex',
+    // flex
+  },
+  edit_button:{
+    marginLeft: 30,
   }
 }
 export default styles;

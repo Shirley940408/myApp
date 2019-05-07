@@ -32,7 +32,22 @@ const styles= {
         fontSize: 25,
         marginBottom:15
     },
-    // className:'btn text-white mb-3 b-0 p-0'
+    container_edit_button:{
+        //styling self
+        cursor:'pointer',
+        //styling children
+        display:'flex',
+        flexDirection:'row',
+        justifyCfontern:'flex-start',
+        alignItems:'center',
+      },
+      icon_edit:{
+        width:26,
+        height:25,
+      },
+      label_edit:{
+        marginleft: 15,
+      },
 }
 
 export default styles;

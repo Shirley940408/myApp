@@ -16,9 +16,7 @@ export default class TextInput extends Component{
                 <input {...rest} style={styles}/>
 
                 <div style={styles.line(errMsg)}></div>
-                {/* <div style={{...styles.line, borderColor: this.props.errMsg? 'red':'#D8D8D8'}}></div> */}
-
-                {/* <div ></div> */}
+                
                 <TextCostume style={styles.errorBlock} type='xs err'><span>{errMsg}</span></TextCostume>
             </div>
             
