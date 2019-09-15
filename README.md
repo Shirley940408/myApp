@@ -79,3 +79,15 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### login page
 ![login](./img/login.png)
+
+### signUp sign
+![signUp](./img/signUp.png)
+
+### loginWrong sign
+![loginWrong](./img/loginWrong.png)
+
+### Q&A
+![Q&A](./img/Q&A.png)
+
+### userPage
+![userPage](./img/userPage.png)
