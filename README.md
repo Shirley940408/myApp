@@ -80,10 +80,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ### login page
 ![login](./img/login.png)
 
-### signUp sign
-![signUp](./img/signUp.png)
+### signUp wrong sign
+![signUp](./img/signUpWrong.png)
 
-### loginWrong sign
+### login wrong sign
 ![loginWrong](./img/loginWrong.png)
 
 ### Q&A
