@@ -66,3 +66,16 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### BigFish -- An Online Social Platform
+
+- Implemented a quora-like application with React where the users can register, login, logout, create questions or answer questions. 
+- Used Rematch to restore information answered by the server to decouple the UI design and the data flow.
+- Used Rematch to restore information answered by the server to decouple the UI design and the data flow.
+- Deployed the Large space-occupied data such as users uploading photos into the cloud- based platform (google firebase).
+
+### signUp page
+![signUp](./img/signUp.png)
+
+### login page
+![login](./img/login.png)
